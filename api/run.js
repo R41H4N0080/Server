@@ -1,9 +1,9 @@
 export default async function handler(req, res) {
   try {
-    const response = await fetch('https://statusdata.22web.org/auto1.php?run_all=1', {
+    const response = await fetch('https://statusdata.22web.org/auto3.php?run_all=true&token=mysecurekey123', {
       method: 'GET',
       headers: {
-        'User-Agent': 'Mozilla/5.0 (VercelBot)'
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/115.0.0.0 Safari/537.36'
       }
     });
 
