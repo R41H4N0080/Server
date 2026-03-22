@@ -1,12 +1,15 @@
-export default function handler(req, res) {
-  if (req.method === "GET") {
-    // Simple test response
+import fetch from "node-fetch";
+
+export default async function handler(req, res) {
+  try {
+    const response = await fetch("https://official-joke-api.appspot.com/random_joke");
+    const data = await response.json();
+
     res.status(200).json({
       success: true,
-      message: "API test successful!",
-      timestamp: new Date().toISOString()
+      joke: data
     });
-  } else {
-    res.status(405).json({ success: false, message: "Method not allowed" });
+  } catch (err) {
+    res.status(500).json({ success: false, error: err.message });
   }
 }
