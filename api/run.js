@@ -1,20 +1,12 @@
-export default async function handler(req, res) {
-  try {
-    const response = await fetch('https://statusdata.22web.org/auto3.php?run_all=true&token=mysecurekey123', {
-      method: 'GET',
-      headers: {
-        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/115.0.0.0 Safari/537.36'
-      }
+export default function handler(req, res) {
+  if (req.method === "GET") {
+    // Simple test response
+    res.status(200).json({
+      success: true,
+      message: "API test successful!",
+      timestamp: new Date().toISOString()
     });
-
-    const text = await response.text();
-
-    if (response.ok) {
-      res.status(200).send("✅ API Call Success\n\nResponse:\n" + text);
-    } else {
-      res.status(500).send("❌ API Call Failed\n\nResponse:\n" + text);
-    }
-  } catch (error) {
-    res.status(500).send("❌ API Call Error\n" + error.toString());
+  } else {
+    res.status(405).json({ success: false, message: "Method not allowed" });
   }
 }
