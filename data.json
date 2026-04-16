@@ -15,10 +15,10 @@
       "link": "https://www.facebook.com/share/v/1DtuKBbdtL/",
       "service": "Facebook Post Comments",
       "quantity": 100,
-      "remains": 92,
+      "remains": 0,
       "charge": "৳ 120.00",
       "startCount": 17,
-      "status": "In Progress",
+      "status": "Completed",
       "date": "2026-04-16"
     },
     {
@@ -60,9 +60,9 @@
       "startCount": 331,
       "service": "Facebook Post Comments",
       "quantity": 100,
-      "remains": 96,
+      "remains": 0,
       "charge": "৳ 120.00",
-      "status": "In Progress",
+      "status": "Completed",
       "date": "2026-04-16"
     },
     {
