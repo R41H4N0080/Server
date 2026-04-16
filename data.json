@@ -1,12 +1,12 @@
 {
   "customer": {
     "name": "Jahid Hadan",
-    "email": "@example.com",
+    "email": "XXXXXXX",
     "phone": "+880 1XXXXXXXX",
     "joined": "2024-01-15",
     "balance": "৳ 1,000.00",
     "totalOrders": 23,
-    "totalSpent": "৳ 0000.00",
+    "totalSpent": "৳ 2500.00",
     "avatar": "JH"
   },
   "orders": [
