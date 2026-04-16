@@ -1,6 +1,6 @@
 {
   "customer": {
-    "name": "Jahid Hadan",
+    "name": "Jahid Hasan",
     "email": "XXXXXXX",
     "phone": "+880 1XXXXXXXX",
     "joined": "2024-01-15",
@@ -27,7 +27,7 @@
       "startCount": 238,
       "service": "Facebook Post Comments",
       "quantity": 100,
-      "remains": 90,
+      "remains": 0,
       "charge": "৳ 120.00",
       "status": "Completed",
       "date": "2026-04-16"
@@ -82,7 +82,7 @@
       "startCount": 230,
       "service": "Facebook Post Comments",
       "quantity": 100,
-      "remains": 95,
+      "remains": 0,
       "charge": "৳ 120.00",
       "status": "Completed",
       "date": "2026-04-16"
