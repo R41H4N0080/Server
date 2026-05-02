@@ -1,0 +1,1643 @@
+<!DOCTYPE html>
+<!--
+═══════════════════════════════════════════
+        PRIVATE VAULT SYSTEM INFO
+═══════════════════════════════════════════
+
+Total HTML Lines : 1304
+Version          : 5.0.0
+Credit           : RAIHAN
+Project Name     : Private Vault – Secure Account Manager
+
+Status           : LIVE
+Security         : Enabled (2FA + Vault Protection)
+Database         : Firebase Realtime DB
+
+Note:
+This system is developed for secure account storage and management.
+Unauthorized access or distribution is strictly prohibited.
+
+═══════════════════════════════════════════
+-->
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Private Vault – Secure Account Manager</title>
+  <meta name="description" content="Secure admin panel for managing social media and digital accounts with 2FA TOTP support." />
+  <link rel="stylesheet" href="/assets/style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet" />
+  <!-- Favicon: inline SVG vault-shield with keyhole, gradient brand colors -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><defs><linearGradient id='g' x1='0' y1='0' x2='1' y2='1'><stop offset='0' stop-color='%233b82f6'/><stop offset='1' stop-color='%238b5cf6'/></linearGradient></defs><rect width='32' height='32' rx='7' fill='url(%23g)'/><path d='M16 6.5l-7.5 3v6.2c0 4.7 3.2 8.5 7.5 9.8 4.3-1.3 7.5-5.1 7.5-9.8V9.5l-7.5-3z' fill='none' stroke='white' stroke-width='1.7' stroke-linejoin='round'/><circle cx='16' cy='14.6' r='2.1' fill='white'/><rect x='15' y='16' width='2' height='4' rx='1' fill='white'/></svg>" />
+  <link rel="apple-touch-icon" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><defs><linearGradient id='g' x1='0' y1='0' x2='1' y2='1'><stop offset='0' stop-color='%233b82f6'/><stop offset='1' stop-color='%238b5cf6'/></linearGradient></defs><rect width='32' height='32' rx='7' fill='url(%23g)'/><path d='M16 6.5l-7.5 3v6.2c0 4.7 3.2 8.5 7.5 9.8 4.3-1.3 7.5-5.1 7.5-9.8V9.5l-7.5-3z' fill='none' stroke='white' stroke-width='1.7' stroke-linejoin='round'/><circle cx='16' cy='14.6' r='2.1' fill='white'/><rect x='15' y='16' width='2' height='4' rx='1' fill='white'/></svg>" />
+  <meta name="theme-color" content="#3b82f6" />
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════
+  PRE-LOADER
+  Credit: RAIHAN
+═══════════════════════════════════════════ -->
+<div id="preloader">
+  <div class="preloader-inner">
+    <div class="preloader-glow"></div>
+
+    <div class="preloader-logo-wrap">
+      <div class="preloader-icon-ring"></div>
+      <div class="preloader-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+      </div>
+    </div>
+
+    <div class="preloader-brand">
+      <div class="preloader-title">Private<span> Vault</span></div>
+      <div class="preloader-credit">by RAIHAN</div>
+    </div>
+
+    <div class="preloader-bar-wrap">
+      <div class="preloader-bar">
+        <div class="preloader-bar-fill" id="preloader-bar-fill"></div>
+      </div>
+      <div class="preloader-bar-labels">
+        <span class="preloader-status" id="preloader-status">Initializing...</span>
+        <span class="preloader-pct" id="preloader-pct">0%</span>
+      </div>
+    </div>
+
+    <div class="preloader-dots">
+      <span></span><span></span><span></span>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+  LOGIN PAGE
+═══════════════════════════════════════════ -->
+<div id="page-login" class="page active">
+  <div class="login-bg-grid"></div>
+  <div class="login-bg-glow g1"></div>
+  <div class="login-bg-glow g2"></div>
+  <div class="login-bg-glow g3"></div>
+
+  <div class="login-card">
+    <div class="login-logo">
+      <div class="login-logo-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+      </div>
+      <div class="login-title">Private<span> Vault</span></div>
+      <div class="login-subtitle">Secure Access Portal</div>
+      <div class="login-status-badge">
+        <span class="login-status-dot"></span>
+        SYSTEM ONLINE
+      </div>
+    </div>
+
+    <div class="card-box">
+      <div class="card-box-header">
+        <div class="line"></div>
+        <div class="label">Admin Authentication</div>
+        <div class="line"></div>
+      </div>
+
+      <div id="login-loading" style="padding:32px;display:flex;flex-direction:column;align-items:center;gap:12px;">
+        <div class="spinner" style="width:28px;height:28px;border-width:3px;border-top-color:var(--primary);"></div>
+        <div style="font-size:13px;color:var(--text3);font-family:var(--mono);">Initializing secure connection...</div>
+      </div>
+
+      <form id="login-form" class="login-form hidden" onsubmit="handleLogin(event)">
+        <div class="form-group">
+          <label class="form-label" for="login-username">Username</label>
+          <div class="input-wrap">
+            <span class="input-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+            </span>
+            <input type="text" id="login-username" placeholder="username" autocomplete="username" data-testid="input-username" required />
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="login-password">Password</label>
+          <div class="input-wrap">
+            <span class="input-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+            </span>
+            <input type="password" id="login-password" placeholder="••••••••" autocomplete="current-password" class="has-right-btn" data-testid="input-password" required />
+            <button type="button" class="input-btn" onclick="togglePasswordVisibility('login-password', this)" data-testid="button-toggle-password">
+              <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+            </button>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="login-captcha">
+            Security Check
+            <span class="captcha-hint">solve the puzzle</span>
+          </label>
+          <div class="captcha-wrap">
+            <div class="captcha-question" id="captcha-question" aria-live="polite">
+              <span class="cq-num" id="cq-a">?</span>
+              <span class="cq-op"  id="cq-op">+</span>
+              <span class="cq-num" id="cq-b">?</span>
+              <span class="cq-eq">=</span>
+              <span class="cq-q">?</span>
+            </div>
+            <button type="button" class="captcha-refresh" id="captcha-refresh" title="New puzzle" aria-label="Refresh puzzle">
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>
+            </button>
+            <input type="text" inputmode="numeric" maxlength="2" id="login-captcha" autocomplete="off" placeholder="?" aria-label="Captcha answer" required />
+          </div>
+          <div id="captcha-error" class="captcha-error hidden">Wrong answer — try again</div>
+        </div>
+
+        <div id="login-error" class="alert alert-error hidden"></div>
+
+        <button type="submit" class="btn btn-primary w-full" id="login-btn" data-testid="button-login">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          Authenticate
+        </button>
+
+        <div class="login-hint">Only For Administration </div>
+      </form>
+
+      <!-- ─── LOGIN 2FA STEP (hidden by default) ─── -->
+      <div id="login-2fa-step" class="login-form hidden">
+        <div class="login-2fa-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/><circle cx="12" cy="16" r="1.4" fill="currentColor"/></svg>
+        </div>
+        <div class="login-2fa-title">Two-Factor Authentication</div>
+        <div class="login-2fa-sub">Enter the 6-digit code from your authenticator app</div>
+
+        <form onsubmit="handleLogin2FA(event)" autocomplete="off">
+          <div class="login-2fa-inputs">
+            <input type="text" inputmode="numeric" maxlength="1" class="otp-cell" data-i="0" />
+            <input type="text" inputmode="numeric" maxlength="1" class="otp-cell" data-i="1" />
+            <input type="text" inputmode="numeric" maxlength="1" class="otp-cell" data-i="2" />
+            <span class="otp-dash">·</span>
+            <input type="text" inputmode="numeric" maxlength="1" class="otp-cell" data-i="3" />
+            <input type="text" inputmode="numeric" maxlength="1" class="otp-cell" data-i="4" />
+            <input type="text" inputmode="numeric" maxlength="1" class="otp-cell" data-i="5" />
+          </div>
+          <div id="login-2fa-error" class="alert alert-error hidden"></div>
+
+          <div class="login-2fa-progress" title="Time until code expires">
+            <div class="login-2fa-progress-bar" id="login-2fa-progress-bar"></div>
+            <span class="login-2fa-progress-txt" id="login-2fa-progress-txt">30s</span>
+          </div>
+
+          <button type="submit" class="btn btn-primary w-full" id="login-2fa-btn">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+            Verify &amp; Continue
+          </button>
+
+          <button type="button" class="btn btn-ghost w-full" id="login-2fa-cancel" style="margin-top:8px;">
+            ← Back to login
+          </button>
+        </form>
+      </div>
+
+      <!-- ─── RATE-LIMIT BLOCK SCREEN (hidden by default) ─── -->
+      <div id="login-rate-block" class="login-form hidden">
+        <div class="rate-block-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+        </div>
+        <div class="rate-block-title">Access Temporarily Locked</div>
+        <div class="rate-block-sub">Too many failed login attempts from this device.</div>
+        <div class="rate-block-timer-wrap">
+          <div class="rate-block-timer" id="rate-block-timer">--:--</div>
+          <div class="rate-block-timer-lbl">until unlock</div>
+        </div>
+        <div class="rate-block-info">
+          <span>Reason:</span> <code id="rate-block-reason">5 failed attempts</code>
+        </div>
+      </div>
+    </div>
+
+    <div class="login-footer">RESTRICTED ACCESS — AUTHORIZED PERSONNEL ONLY</div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+  DASHBOARD PAGE
+═══════════════════════════════════════════ -->
+<div id="page-dashboard" class="page">
+  <div class="app-layout">
+    <!-- Sidebar -->
+    <nav class="sidebar" id="sidebar">
+      <div class="sidebar-header">
+        <div class="sidebar-logo-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        </div>
+        <div class="sidebar-logo-text">
+          <div class="sidebar-app-name">Private<span> Vault</span></div>
+          <div class="sidebar-version mono">v10.A1.A3</div>
+        </div>
+      </div>
+
+      <div class="sidebar-nav">
+        <div class="nav-section-label">Navigation</div>
+        <a class="nav-item active" onclick="showPage('dashboard');return false;" href="javascript:void(0)" data-testid="link-dashboard">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+          <span class="nav-item-text">Dashboard</span>
+        </a>
+        <a class="nav-item" onclick="showPage('settings');return false;" href="javascript:void(0)" data-testid="link-settings">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+          <span class="nav-item-text">Settings</span>
+        </a>
+
+        <div class="nav-section-label">Tools</div>
+        <a class="nav-item" onclick="openBulkParser();return false;" href="javascript:void(0)" data-testid="link-bulk-parser">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+          <span class="nav-item-text">Bulk Parser</span>
+          <span class="nav-badge">NEW</span>
+        </a>
+        <a class="nav-item" onclick="openAnalytics();return false;" href="javascript:void(0)" data-testid="link-analytics">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+          <span class="nav-item-text">Analytics</span>
+        </a>
+
+        <div class="nav-section-label">AI</div>
+        <a class="nav-item" onclick="openAIModal();return false;" href="javascript:void(0)" data-testid="link-ai-assistant">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+          <span class="nav-item-text">AI Assistant</span>
+          <span class="nav-badge" style="background:rgba(139,92,246,0.18);color:var(--purple);">AI</span>
+        </a>
+
+        <div class="nav-section-label">System</div>
+        <a class="nav-item" onclick="showFirebaseStatus();return false;" href="javascript:void(0)">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+          <span class="nav-item-text">Status Check</span>
+        </a>
+        <a class="nav-item" onclick="openSystemHealth();return false;" href="javascript:void(0)" data-testid="link-system-health">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+          <span class="nav-item-text">System Health</span>
+          <span id="sys-health-dot" class="sys-health-dot ok" title="Backend status"></span>
+        </a>
+        <a class="nav-item" onclick="openActivityLog();return false;" href="javascript:void(0)">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          <span class="nav-item-text">Update Logs</span>
+        </a>
+        <a class="nav-item" onclick="openRealtimeLog();return false;" href="javascript:void(0)" data-testid="link-realtime-log">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+          <span class="nav-item-text">Realtime Log</span>
+          <span class="nav-badge" style="background:rgba(34,197,94,0.18);color:#22c55e;">LIVE</span>
+        </a>
+      </div>
+
+      <div class="sidebar-footer">
+        <div class="admin-info">
+          <div class="admin-avatar">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          </div>
+          <div class="admin-text">
+            <div class="admin-name">Administrator</div>
+            <div class="admin-status"><span class="status-dot"></span><span class="mono" style="font-size:10px;">Online</span></div>
+          </div>
+        </div>
+        <button class="nav-item" style="width:100%;border:none;background:none;color:var(--red);cursor:pointer;text-align:left;" onclick="handleLogout()" data-testid="button-logout">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+          <span class="nav-item-text">Sign Out</span>
+        </button>
+      </div>
+    </nav>
+
+    <!-- Main -->
+    <div class="main-content">
+      <div class="topbar">
+        <div class="topbar-left">
+          <button class="sidebar-toggle-btn" onclick="toggleSidebar()" data-testid="button-sidebar-toggle">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+          </button>
+          <div>
+            <div class="page-title">Account Vault</div>
+            <div class="page-subtitle mono" id="account-count-label">Loading accounts...</div>
+          </div>
+        </div>
+        <div class="topbar-right">
+          <button class="btn btn-primary btn-sm" onclick="openAddModal()" data-testid="button-add-account">
+            <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            Add Account
+          </button>
+        </div>
+      </div>
+
+      <div class="page-body">
+        <!-- Weak Security Alert -->
+        <div id="weak-security-banner">
+          <div class="weak-alert-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+          </div>
+          <div class="weak-alert-content">
+            <div class="weak-alert-title" id="weak-alert-title">Security Alert</div>
+            <div class="weak-alert-detail" id="weak-alert-detail"></div>
+          </div>
+          <button class="weak-alert-dismiss" onclick="dismissWeakAlert()" title="Dismiss">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+          </button>
+        </div>
+
+        <div class="dashboard-toolbar">
+          <div class="search-input-wrap enhanced-search">
+            <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            <input type="search" id="search-input" placeholder="Search by name, platform, email..." oninput="filterAccounts()" data-testid="input-search" />
+            <button class="search-clear-btn" id="search-clear-btn" onclick="clearSearch()" title="Clear search" style="display:none;">
+              <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+            </button>
+          </div>
+          <div class="platform-select-wrap filter-wrap">
+            <select id="filter-platform" class="filter-select" onchange="filterAccounts()" data-testid="select-filter-platform">
+              <option value="">All Platforms</option>
+              <option value="facebook">Facebook</option>
+              <option value="instagram">Instagram</option>
+              <option value="gmail">Gmail</option>
+              <option value="twitter">Twitter / X</option>
+              <option value="tiktok">TikTok</option>
+              <option value="snapchat">Snapchat</option>
+              <option value="discord">Discord</option>
+              <option value="telegram">Telegram</option>
+              <option value="whatsapp">WhatsApp</option>
+              <option value="youtube">YouTube</option>
+              <option value="linkedin">LinkedIn</option>
+              <option value="other">Other</option>
+            </select>
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+          </div>
+          <div class="platform-select-wrap filter-wrap">
+            <select id="filter-status" class="filter-select" onchange="filterAccounts()" data-testid="select-filter-status">
+              <option value="">All Status</option>
+              <option value="live">Live</option>
+              <option value="dead">Dead</option>
+            </select>
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+          </div>
+          <button class="btn-recheck" id="btn-recheck" onclick="recheckAllAccounts()" title="Recheck all accounts and save alerts to notes">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" id="recheck-icon"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
+            <span id="recheck-label">Recheck</span>
+          </button>
+        </div>
+
+        <div class="accounts-container custom-scroll">
+          <div id="accounts-loading" style="display:none;"></div>
+
+          <!-- Cyber Preloader for account list -->
+          <div id="accounts-cyber-loader">
+            <div class="cyber-loader-header">LOADING VAULT DATA...</div>
+            <div class="cyber-skeleton-grid">
+              <!-- Card 1 -->
+              <div class="cyber-skeleton-card">
+                <div class="skel-row">
+                  <div class="skel-avatar"></div>
+                  <div class="skel-title-group">
+                    <div class="skel-line med"></div>
+                    <div class="skel-line short"></div>
+                  </div>
+                </div>
+                <div class="skel-divider"></div>
+                <div class="skel-fields">
+                  <div class="skel-field-row"><div class="skel-line skel-label xshort"></div><div class="skel-line skel-value full"></div></div>
+                  <div class="skel-field-row"><div class="skel-line skel-label xshort"></div><div class="skel-line skel-value med"></div></div>
+                  <div class="skel-field-row"><div class="skel-line skel-label xshort"></div><div class="skel-line skel-value short"></div></div>
+                </div>
+                <div class="cyber-corner"></div>
+              </div>
+              <!-- Card 2 -->
+              <div class="cyber-skeleton-card">
+                <div class="skel-row">
+                  <div class="skel-avatar"></div>
+                  <div class="skel-title-group">
+                    <div class="skel-line short"></div>
+                    <div class="skel-line xshort"></div>
+                  </div>
+                </div>
+                <div class="skel-divider"></div>
+                <div class="skel-fields">
+                  <div class="skel-field-row"><div class="skel-line skel-label xshort"></div><div class="skel-line skel-value med"></div></div>
+                  <div class="skel-field-row"><div class="skel-line skel-label xshort"></div><div class="skel-line skel-value full"></div></div>
+                </div>
+                <div class="cyber-corner"></div>
+              </div>
+              <!-- Card 3 -->
+              <div class="cyber-skeleton-card">
+                <div class="skel-row">
+                  <div class="skel-avatar"></div>
+                  <div class="skel-title-group">
+                    <div class="skel-line full"></div>
+                    <div class="skel-line med"></div>
+                  </div>
+                </div>
+                <div class="skel-divider"></div>
+                <div class="skel-fields">
+                  <div class="skel-field-row"><div class="skel-line skel-label xshort"></div><div class="skel-line skel-value short"></div></div>
+                  <div class="skel-field-row"><div class="skel-line skel-label xshort"></div><div class="skel-line skel-value full"></div></div>
+                  <div class="skel-field-row"><div class="skel-line skel-label xshort"></div><div class="skel-line skel-value med"></div></div>
+                </div>
+                <div class="cyber-corner"></div>
+              </div>
+              <!-- Card 4 -->
+              <div class="cyber-skeleton-card">
+                <div class="skel-row">
+                  <div class="skel-avatar"></div>
+                  <div class="skel-title-group">
+                    <div class="skel-line med"></div>
+                    <div class="skel-line xshort"></div>
+                  </div>
+                </div>
+                <div class="skel-divider"></div>
+                <div class="skel-fields">
+                  <div class="skel-field-row"><div class="skel-line skel-label xshort"></div><div class="skel-line skel-value full"></div></div>
+                  <div class="skel-field-row"><div class="skel-line skel-label xshort"></div><div class="skel-line skel-value short"></div></div>
+                </div>
+                <div class="cyber-corner"></div>
+              </div>
+              <!-- Card 5 -->
+              <div class="cyber-skeleton-card">
+                <div class="skel-row">
+                  <div class="skel-avatar"></div>
+                  <div class="skel-title-group">
+                    <div class="skel-line short"></div>
+                    <div class="skel-line med"></div>
+                  </div>
+                </div>
+                <div class="skel-divider"></div>
+                <div class="skel-fields">
+                  <div class="skel-field-row"><div class="skel-line skel-label xshort"></div><div class="skel-line skel-value med"></div></div>
+                  <div class="skel-field-row"><div class="skel-line skel-label xshort"></div><div class="skel-line skel-value full"></div></div>
+                </div>
+                <div class="cyber-corner"></div>
+              </div>
+              <!-- Card 6 -->
+              <div class="cyber-skeleton-card">
+                <div class="skel-row">
+                  <div class="skel-avatar"></div>
+                  <div class="skel-title-group">
+                    <div class="skel-line full"></div>
+                    <div class="skel-line xshort"></div>
+                  </div>
+                </div>
+                <div class="skel-divider"></div>
+                <div class="skel-fields">
+                  <div class="skel-field-row"><div class="skel-line skel-label xshort"></div><div class="skel-line skel-value short"></div></div>
+                  <div class="skel-field-row"><div class="skel-line skel-label xshort"></div><div class="skel-line skel-value full"></div></div>
+                  <div class="skel-field-row"><div class="skel-line skel-label xshort"></div><div class="skel-line skel-value med"></div></div>
+                </div>
+                <div class="cyber-corner"></div>
+              </div>
+            </div>
+          </div>
+
+          <div id="stats-bar" class="stats-bar hidden"></div>
+
+          <div id="accounts-grid" class="accounts-grid"></div>
+
+          <div id="empty-state" class="empty-state hidden">
+            <div class="empty-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>
+            </div>
+            <h3 id="empty-title">No accounts found</h3>
+            <p id="empty-desc">Click "Add Account" to save your first account.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+  SETTINGS PAGE
+═══════════════════════════════════════════ -->
+<div id="page-settings" class="page">
+  <div class="app-layout">
+    <!-- Same sidebar -->
+    <nav class="sidebar" id="sidebar-settings">
+      <div class="sidebar-header">
+        <div class="sidebar-logo-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        </div>
+        <div class="sidebar-logo-text">
+          <div class="sidebar-app-name">Private<span> Vault</span></div>
+          <div class="sidebar-version mono">v10.A1.A3</div>
+        </div>
+      </div>
+      <div class="sidebar-nav">
+        <div class="nav-section-label">Navigation</div>
+        <a class="nav-item" onclick="showPage('dashboard');return false;" href="javascript:void(0)" data-testid="link-dashboard-from-settings">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+          <span class="nav-item-text">Dashboard</span>
+        </a>
+        <a class="nav-item active" onclick="showPage('settings');return false;" href="javascript:void(0)" data-testid="link-settings-active">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+          <span class="nav-item-text">Settings</span>
+        </a>
+        <div class="nav-section-label">Tools</div>
+        <a class="nav-item" onclick="openBulkParser();return false;" href="javascript:void(0)">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+          <span class="nav-item-text">Bulk Parser</span>
+          <span class="nav-badge">NEW</span>
+        </a>
+        <a class="nav-item" onclick="openAnalytics();return false;" href="javascript:void(0)">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+          <span class="nav-item-text">Analytics</span>
+        </a>
+        <div class="nav-section-label">AI</div>
+        <a class="nav-item" onclick="openAIModal();return false;" href="javascript:void(0)">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+          <span class="nav-item-text">AI Assistant</span>
+          <span class="nav-badge" style="background:rgba(139,92,246,0.18);color:var(--purple);">AI</span>
+        </a>
+        <div class="nav-section-label">System</div>
+        <a class="nav-item" onclick="showFirebaseStatus();return false;" href="javascript:void(0)">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+          <span class="nav-item-text">Status Check</span>
+        </a>
+        <a class="nav-item" onclick="openSystemHealth();return false;" href="javascript:void(0)">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+          <span class="nav-item-text">System Health</span>
+          <span class="sys-health-dot ok" title="Backend status"></span>
+        </a>
+        <a class="nav-item" onclick="openActivityLog();return false;" href="javascript:void(0)">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          <span class="nav-item-text">Update Logs</span>
+        </a>
+        <a class="nav-item" onclick="openRealtimeLog();return false;" href="javascript:void(0)">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+          <span class="nav-item-text">Realtime Log</span>
+          <span class="nav-badge" style="background:rgba(34,197,94,0.18);color:#22c55e;">LIVE</span>
+        </a>
+      </div>
+      <div class="sidebar-footer">
+        <div class="admin-info">
+          <div class="admin-avatar">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          </div>
+          <div class="admin-text">
+            <div class="admin-name">Administrator</div>
+            <div class="admin-status"><span class="status-dot"></span><span class="mono" style="font-size:10px;">Online</span></div>
+          </div>
+        </div>
+        <button class="nav-item" style="width:100%;border:none;background:none;color:var(--red);cursor:pointer;text-align:left;" onclick="handleLogout()" data-testid="button-logout-settings">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+          <span class="nav-item-text">Sign Out</span>
+        </button>
+      </div>
+    </nav>
+
+    <div class="main-content">
+      <div class="topbar">
+        <div class="topbar-left">
+          <button class="sidebar-toggle-btn" onclick="toggleSidebarSettings()">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+          </button>
+          <div>
+            <div class="page-title">Settings</div>
+            <div class="page-subtitle mono">Admin configuration panel</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="page-body">
+        <div class="settings-body custom-scroll">
+
+          <!-- Export Accounts -->
+          <div class="settings-section">
+            <div class="settings-section-header">
+              <div class="settings-section-icon" style="background:rgba(34,197,94,0.12);color:var(--green);">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+              </div>
+              <div>
+                <div class="settings-section-title">Export Accounts</div>
+                <div class="settings-section-desc">Download all saved accounts as TXT or JSON</div>
+              </div>
+            </div>
+            <div class="settings-form" style="padding-top:0;">
+              <div class="alert alert-info" style="margin-bottom:12px;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                Exported file includes name, platform, email, phone, password, 2FA key and notes. Keep it secure.
+              </div>
+              <div class="export-btn-group">
+                <button class="export-btn export-btn-txt" onclick="downloadAccountsTxt()" data-testid="button-download-txt">
+                  <span class="export-btn-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+                  </span>
+                  <span class="export-btn-label">
+                    <span class="export-btn-title">TXT Export</span>
+                    <span class="export-btn-sub">Plain text · UTF-8 encoded</span>
+                  </span>
+                  <span class="export-btn-arrow">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                  </span>
+                </button>
+                <button class="export-btn export-btn-json" onclick="downloadAccountsJson()" data-testid="button-download-json">
+                  <span class="export-btn-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+                  </span>
+                  <span class="export-btn-label">
+                    <span class="export-btn-title">JSON Export</span>
+                    <span class="export-btn-sub">Structured data · Re-importable</span>
+                  </span>
+                  <span class="export-btn-arrow">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                  </span>
+                </button>
+              </div>
+              <span class="mono" style="font-size:12px;color:var(--text3);margin-top:8px;display:block;">Total accounts: <span id="settings-total-count-export">0</span></span>
+            </div>
+          </div>
+
+          <!-- Import Accounts -->
+          <div class="settings-section">
+            <div class="settings-section-header">
+              <div class="settings-section-icon" style="background:rgba(99,102,241,0.12);color:var(--primary);">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+              </div>
+              <div>
+                <div class="settings-section-title">Import Accounts</div>
+                <div class="settings-section-desc">Upload a TXT or JSON file to bring accounts into Firebase</div>
+              </div>
+            </div>
+            <div class="settings-form" style="padding-top:0;">
+              <div class="alert alert-info" style="margin-bottom:12px;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                Use a file previously exported from Private Vault. Duplicates (same UID + platform) are skipped automatically.
+              </div>
+
+              <label for="import-file-input" class="import-dropzone" id="import-dropzone">
+                <span class="import-dropzone-icon">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+                </span>
+                <span class="import-dropzone-text">
+                  <span class="import-dropzone-title" id="import-file-name">Choose a .txt or .json file</span>
+                  <span class="import-dropzone-sub" id="import-file-sub">Click to browse or drag-and-drop here</span>
+                </span>
+              </label>
+              <input type="file" id="import-file-input" accept=".txt,.json,application/json,text/plain" style="display:none;" />
+
+              <div id="import-preview" class="import-preview" style="display:none;"></div>
+
+              <div id="import-alert" class="alert hidden" style="margin-top:10px;"></div>
+
+              <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:10px;">
+                <button type="button" class="btn btn-primary" id="import-submit-btn" disabled onclick="submitImportFile()">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+                  Submit to Firebase
+                </button>
+                <button type="button" class="btn btn-ghost" id="import-clear-btn" onclick="clearImportFile()" style="display:none;">Clear</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Change Password -->
+          <div class="settings-section">
+            <div class="settings-section-header">
+              <div class="settings-section-icon blue">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+              </div>
+              <div>
+                <div class="settings-section-title">Change Password</div>
+                <div class="settings-section-desc">Update your admin authentication password</div>
+              </div>
+            </div>
+            <form class="settings-form" onsubmit="handleChangePassword(event)">
+              <div class="form-group">
+                <label class="form-label">Current Password</label>
+                <div class="input-wrap">
+                  <span class="input-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                  </span>
+                  <input type="password" id="current-password" placeholder="Current password" class="has-right-btn" data-testid="input-current-password" required />
+                  <button type="button" class="input-btn" onclick="togglePasswordVisibility('current-password', this)">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                  </button>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="form-label">New Password</label>
+                <div class="input-wrap">
+                  <span class="input-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.777-7.777zm0 0L15.5 7.5m0 0l3 3L22 7l-3-3m-3.5 3.5L19 4"/></svg>
+                  </span>
+                  <input type="password" id="new-password" placeholder="Min 8 characters" class="has-right-btn" data-testid="input-new-password" required minlength="8" />
+                  <button type="button" class="input-btn" onclick="togglePasswordVisibility('new-password', this)">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                  </button>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Confirm New Password</label>
+                <div class="input-wrap">
+                  <span class="input-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.777-7.777zm0 0L15.5 7.5m0 0l3 3L22 7l-3-3m-3.5 3.5L19 4"/></svg>
+                  </span>
+                  <input type="password" id="confirm-password" placeholder="Repeat new password" class="has-right-btn" data-testid="input-confirm-password" required />
+                  <button type="button" class="input-btn" onclick="togglePasswordVisibility('confirm-password', this)">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                  </button>
+                </div>
+              </div>
+              <div id="pw-alert" class="alert hidden"></div>
+              <div>
+                <button type="submit" class="btn btn-primary" id="pw-submit-btn" data-testid="button-change-password">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+                  Update Password
+                </button>
+              </div>
+            </form>
+          </div>
+
+          <!-- ═══════════════════════════════════════════
+            LOGIN 2FA — TOTP toggle + setup wizard
+          ═══════════════════════════════════════════ -->
+          <div class="settings-section">
+            <div class="settings-section-header">
+              <div class="settings-section-icon" style="background:rgba(168,85,247,0.12);color:#c084fc;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/><circle cx="12" cy="16" r="1.4" fill="currentColor"/></svg>
+              </div>
+              <div style="flex:1;">
+                <div class="settings-section-title">Login 2-Factor Authentication</div>
+                <div class="settings-section-desc">Require a TOTP code (Google Authenticator / Authy) at every login</div>
+              </div>
+              <label class="switch">
+                <input type="checkbox" id="login-2fa-toggle" onchange="onLogin2FAToggle(event)" />
+                <span class="switch-slider"></span>
+              </label>
+            </div>
+
+            <!-- Status row when ENABLED -->
+            <div id="login-2fa-enabled-box" class="login2fa-status-box" style="display:none;">
+              <div class="login2fa-status-row">
+                <div class="login2fa-status-icon ok">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                </div>
+                <div style="flex:1;">
+                  <div class="login2fa-status-title">2FA is active</div>
+                  <div class="login2fa-status-sub">Login requires a 6-digit code from your authenticator</div>
+                </div>
+              </div>
+              <div class="login2fa-key-row">
+                <span class="login2fa-key-label">Secret key:</span>
+                <code class="login2fa-key-value mono" id="login2fa-key-display">••••-••••-••••-••••</code>
+                <button class="login2fa-key-btn" onclick="toggleLogin2FAKey()" id="login2fa-key-toggle-btn" title="Show/Hide">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                </button>
+                <button class="login2fa-key-btn" onclick="copyLogin2FAKey()" title="Copy">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                </button>
+              </div>
+            </div>
+
+            <!-- Setup wizard panel (shown when enabling) -->
+            <div id="login-2fa-setup-panel" class="login2fa-setup-panel" style="display:none;">
+              <div class="login2fa-setup-step">
+                <div class="login2fa-setup-num">1</div>
+                <div class="login2fa-setup-content">
+                  <div class="login2fa-setup-title">Scan or copy this secret into your authenticator app</div>
+                  <div class="login2fa-setup-key-card">
+                    <div class="login2fa-setup-key" id="login2fa-setup-key">XXXX XXXX XXXX XXXX</div>
+                    <button class="btn btn-secondary btn-sm" onclick="copyLogin2FASetupKey()">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                      Copy
+                    </button>
+                  </div>
+                  <div id="login2fa-qr-box" class="login2fa-qr-box"></div>
+                </div>
+              </div>
+              <div class="login2fa-setup-step">
+                <div class="login2fa-setup-num">2</div>
+                <div class="login2fa-setup-content">
+                  <div class="login2fa-setup-title">Enter the 6-digit code your app shows</div>
+                  <form onsubmit="verifyLogin2FASetup(event)" autocomplete="off">
+                    <div class="login2fa-verify-row">
+                      <input type="text" inputmode="numeric" maxlength="6" id="login2fa-verify-code" placeholder="000000" class="mono" />
+                      <button type="submit" class="btn btn-primary">Verify &amp; Enable</button>
+                      <button type="button" class="btn btn-ghost" onclick="cancelLogin2FASetup()">Cancel</button>
+                    </div>
+                    <div id="login2fa-verify-error" class="alert alert-error hidden" style="margin-top:10px;"></div>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- ═══════════════════════════════════════════
+            LOGIN HISTORY — last 10 with delete + block IP
+          ═══════════════════════════════════════════ -->
+          <div class="settings-section">
+            <div class="settings-section-header">
+              <div class="settings-section-icon" style="background:rgba(34,211,238,0.12);color:#67e8f9;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+              </div>
+              <div style="flex:1;">
+                <div class="settings-section-title">Login History</div>
+                <div class="settings-section-desc">Last 10 login attempts — IP, location, time &amp; status</div>
+              </div>
+              <button class="btn btn-ghost btn-sm" onclick="refreshLoginLogs()" title="Refresh">
+                <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>
+                Refresh
+              </button>
+            </div>
+            <div id="login-logs-list" class="login-logs-list">
+              <div class="login-logs-empty">Loading…</div>
+            </div>
+            <div style="display:flex;gap:10px;margin-top:14px;flex-wrap:wrap;">
+              <button class="btn btn-danger btn-sm" onclick="clearAllLoginLogs()">
+                <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/></svg>
+                Clear All Logs
+              </button>
+            </div>
+          </div>
+
+          <!-- ═══════════════════════════════════════════
+            BLOCKED IPs MANAGER
+          ═══════════════════════════════════════════ -->
+          <div class="settings-section">
+            <div class="settings-section-header">
+              <div class="settings-section-icon" style="background:rgba(244,63,94,0.12);color:#fb7185;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"/></svg>
+              </div>
+              <div style="flex:1;">
+                <div class="settings-section-title">Blocked IP Addresses</div>
+                <div class="settings-section-desc">IPs in this list cannot login from any device</div>
+              </div>
+              <span class="badge-count" id="blocked-ips-count">0</span>
+            </div>
+            <div class="blocked-ip-add-row">
+              <input type="text" id="blocked-ip-input" placeholder="e.g. 192.168.1.50" class="mono" />
+              <button class="btn btn-primary btn-sm" onclick="addBlockedIPManual()">+ Block IP</button>
+            </div>
+            <div id="blocked-ips-list" class="blocked-ips-list">
+              <div class="blocked-ips-empty">No blocked IPs.</div>
+            </div>
+          </div>
+
+          <!-- ImgBB API Key -->
+          <div class="settings-section">
+            <div class="settings-section-header">
+              <div class="settings-section-icon" style="background:var(--yellow-dim);color:var(--yellow);">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+              </div>
+              <div>
+                <div class="settings-section-title">ImgBB Image Upload</div>
+                <div class="settings-section-desc">API key for automatic photo uploads (api.imgbb.com)</div>
+              </div>
+            </div>
+            <!-- Saved key display -->
+            <div id="imgbb-key-saved" class="api-key-saved-display" style="display:none;">
+              <div class="api-key-saved-row">
+                <div class="api-key-saved-icon" style="background:rgba(245,158,11,0.1);color:var(--yellow);">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+                </div>
+                <div class="api-key-saved-info">
+                  <div class="api-key-saved-label">ImgBB API Key <span class="api-key-saved-badge">Saved</span></div>
+                  <div class="api-key-saved-masked mono" id="imgbb-key-masked">••••••••••••</div>
+                </div>
+                <div class="api-key-saved-actions">
+                  <button class="api-action-btn api-action-edit" onclick="editApiKey('imgbb')" title="Edit API key">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+                    Edit
+                  </button>
+                  <button class="api-action-btn api-action-delete" onclick="deleteApiKey('imgbb')" title="Delete API key">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg>
+                    Delete
+                  </button>
+                </div>
+              </div>
+            </div>
+            <!-- Form (shown when no key or editing) -->
+            <form class="settings-form" id="imgbb-key-form" onsubmit="saveImgbbKey(event)">
+              <div class="form-group">
+                <label class="form-label">ImgBB API Key</label>
+                <div class="input-wrap">
+                  <span class="input-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.777-7.777zm0 0L15.5 7.5m0 0l3 3L22 7l-3-3m-3.5 3.5L19 4"/></svg>
+                  </span>
+                  <input type="text" id="imgbb-api-key" placeholder="Paste your ImgBB API key here" class="mono has-right-btn" data-testid="input-imgbb-key" />
+                  <button type="button" class="input-btn" onclick="togglePasswordVisibility('imgbb-api-key', this)">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                  </button>
+                </div>
+              </div>
+              <div id="imgbb-alert" class="alert hidden"></div>
+              <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;">
+                <button type="submit" class="btn btn-primary" data-testid="button-save-imgbb-key">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+                  Save API Key
+                </button>
+                <a href="https://api.imgbb.com/" target="_blank" rel="noopener noreferrer" style="font-size:12px;color:var(--primary);text-decoration:none;">Get free API key →</a>
+              </div>
+            </form>
+          </div>
+
+          <!-- Admin Info -->
+          <div class="settings-section">
+            <div class="settings-section-header">
+              <div class="settings-section-icon green">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+              </div>
+              <div>
+                <div class="settings-section-title">Admin Account</div>
+                <div class="settings-section-desc">Your administrator account information</div>
+              </div>
+            </div>
+            <div class="info-block">
+              <div class="info-item">
+                <span class="info-item-label">Username</span>
+                <span class="info-item-value">admin</span>
+              </div>
+              <div class="info-item">
+                <span class="info-item-label">Role</span>
+                <span class="info-item-value" style="color:var(--primary);">Super Administrator</span>
+              </div>
+              <div class="info-item">
+                <span class="info-item-label">Status</span>
+                <span class="info-item-value" style="color:var(--green);display:flex;align-items:center;gap:6px;"><span class="status-dot"></span>Active</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- App Info -->
+          <div class="settings-section">
+            <div class="settings-section-header">
+              <div class="settings-section-icon blue">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+              </div>
+              <div>
+                <div class="settings-section-title">Application Info</div>
+                <div class="settings-section-desc">Private Vault system information</div>
+              </div>
+            </div>
+            <div class="info-block">
+              <div class="info-item">
+                <span class="info-item-label">Version</span>
+                <span class="info-item-value">5.0.0</span>
+              </div>
+              <div class="info-item">
+                <span class="info-item-label">Database</span>
+                <span class="info-item-value" style="color:var(--yellow);">Firebase Realtime DB</span>
+              </div>
+              <div class="info-item">
+                <span class="info-item-label">2FA Engine</span>
+                <span class="info-item-value">TOTP (RFC 6238)</span>
+              </div>
+              <div class="info-item">
+                <span class="info-item-label">Total Accounts</span>
+                <span class="info-item-value" id="settings-total-count">—</span>
+              </div>
+              <div class="info-item">
+                <span class="info-item-label">Credit</span>
+                <span class="info-item-value" style="color:var(--primary);">RAIHAN</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- ── Firebase DB Status ── -->
+          <div class="settings-section">
+            <div class="settings-section-header">
+              <div class="settings-section-icon" style="background:rgba(251,146,60,0.12);color:#fb923c;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg>
+              </div>
+              <div style="flex:1;">
+                <div class="settings-section-title">System Firebase DB</div>
+                <div class="settings-section-desc">Check connection, read/write status, error logs and security rules</div>
+              </div>
+              <span class="fb-conn-pill" id="fb-conn-pill">
+                <span class="fb-conn-dot"></span> Checking…
+              </span>
+            </div>
+            <div class="settings-form" style="padding-top:0;">
+              <button class="btn btn-outline fb-status-btn" onclick="showFirebaseStatus()">
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg>
+                View Full DB Status &amp; Logs
+              </button>
+            </div>
+          </div>
+
+          <!-- ── AI Support ── -->
+          <div class="settings-section">
+            <div class="settings-section-header">
+              <div class="settings-section-icon" style="background:rgba(139,92,246,0.12);color:var(--purple);">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2z"/><path d="M12 6v6l4 2"/></svg>
+              </div>
+              <div style="flex:1;">
+                <div class="settings-section-title">AI Support</div>
+                <div class="settings-section-desc">OpenAI &amp; Gemini-powered smart features — suggestions, analysis &amp; assistant</div>
+              </div>
+              <label class="toggle-switch" title="Enable / Disable AI">
+                <input type="checkbox" id="ai-toggle" onchange="toggleAI(this.checked)" data-testid="toggle-ai" />
+                <span class="toggle-slider"></span>
+              </label>
+            </div>
+
+            <div id="ai-settings-panel" class="settings-form" style="display:none;padding-top:8px;">
+              <!-- Provider Tabs -->
+              <div class="form-group">
+                <label class="form-label">AI Provider</label>
+                <div class="ai-provider-tabs">
+                  <button class="ai-provider-tab active" id="ai-tab-openai" onclick="switchAIProvider('openai')">
+                    OpenAI (ChatGPT)
+                  </button>
+                  <button class="ai-provider-tab" id="ai-tab-gemini" onclick="switchAIProvider('gemini')">
+                    Google Gemini
+                  </button>
+                </div>
+              </div>
+
+              <!-- OpenAI Fields -->
+              <div class="ai-provider-fields active" id="ai-fields-openai">
+                <!-- Saved display -->
+                <div id="openai-key-saved" class="api-key-saved-display" style="display:none;margin-bottom:10px;">
+                  <div class="api-key-saved-row">
+                    <div class="api-key-saved-icon" style="background:rgba(34,197,94,0.1);color:var(--green);">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2z"/><path d="M12 6v6l4 2"/></svg>
+                    </div>
+                    <div class="api-key-saved-info">
+                      <div class="api-key-saved-label">OpenAI API Key <span class="api-key-saved-badge">Saved to Firebase</span></div>
+                      <div class="api-key-saved-masked mono" id="openai-key-masked">sk-••••••••••••</div>
+                    </div>
+                    <div class="api-key-saved-actions">
+                      <button class="api-action-btn api-action-edit" onclick="editApiKey('openai')" title="Edit API key">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+                        Edit
+                      </button>
+                      <button class="api-action-btn api-action-delete" onclick="deleteApiKey('openai')" title="Delete API key">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg>
+                        Delete
+                      </button>
+                    </div>
+                  </div>
+                </div>
+                <!-- Form -->
+                <div id="openai-key-form">
+                  <div class="form-group">
+                    <label class="form-label">OpenAI API Key <span style="color:var(--text3);font-weight:400;">(saved to Firebase)</span></label>
+                    <div class="input-wrap">
+                      <span class="input-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.777-7.777zm0 0L15.5 7.5m0 0l3 3L22 7l-3-3m-3.5 3.5L19 4"/></svg>
+                      </span>
+                      <input type="password" id="openai-api-key" placeholder="sk-..." class="mono has-right-btn" data-testid="input-openai-key" />
+                      <button type="button" class="input-btn" onclick="togglePasswordVisibility('openai-api-key', this)">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                      </button>
+                    </div>
+                  </div>
+                  <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;">
+                    <button class="btn btn-primary btn-sm" onclick="saveAIKey()" data-testid="button-save-ai-key">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/></svg>
+                      Save Key
+                    </button>
+                    <a href="https://platform.openai.com/api-keys" target="_blank" rel="noopener noreferrer" style="font-size:12px;color:var(--primary);text-decoration:none;">Get OpenAI key →</a>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Gemini Fields -->
+              <div class="ai-provider-fields" id="ai-fields-gemini">
+                <!-- Saved display -->
+                <div id="gemini-key-saved" class="api-key-saved-display" style="display:none;margin-bottom:10px;">
+                  <div class="api-key-saved-row">
+                    <div class="api-key-saved-icon" style="background:rgba(59,130,246,0.1);color:#3b82f6;">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                    </div>
+                    <div class="api-key-saved-info">
+                      <div class="api-key-saved-label">Gemini API Key <span class="api-key-saved-badge">Saved to Firebase</span></div>
+                      <div class="api-key-saved-masked mono" id="gemini-key-masked">AIza••••••••••••</div>
+                    </div>
+                    <div class="api-key-saved-actions">
+                      <button class="api-action-btn api-action-edit" onclick="editApiKey('gemini')" title="Edit API key">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+                        Edit
+                      </button>
+                      <button class="api-action-btn api-action-delete" onclick="deleteApiKey('gemini')" title="Delete API key">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg>
+                        Delete
+                      </button>
+                    </div>
+                  </div>
+                </div>
+                <!-- Form -->
+                <div id="gemini-key-form">
+                  <div class="form-group">
+                    <label class="form-label">Gemini API Key <span style="color:var(--text3);font-weight:400;">(saved to Firebase)</span></label>
+                    <div class="input-wrap">
+                      <span class="input-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.777-7.777zm0 0L15.5 7.5m0 0l3 3L22 7l-3-3m-3.5 3.5L19 4"/></svg>
+                      </span>
+                      <input type="password" id="gemini-api-key" placeholder="AIza..." class="mono has-right-btn" data-testid="input-gemini-key" />
+                      <button type="button" class="input-btn" onclick="togglePasswordVisibility('gemini-api-key', this)">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                      </button>
+                    </div>
+                  </div>
+                  <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;">
+                    <button class="btn btn-primary btn-sm" onclick="saveGeminiKey()" data-testid="button-save-gemini-key">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/></svg>
+                      Save Key
+                    </button>
+                    <a href="https://aistudio.google.com/app/apikey" target="_blank" rel="noopener noreferrer" style="font-size:12px;color:var(--primary);text-decoration:none;">Get Gemini key →</a>
+                  </div>
+                </div>
+              </div>
+
+              <div id="ai-key-alert" class="alert hidden"></div>
+              <div class="ai-feature-list">
+                <div class="ai-feature-item">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                  <span>Auto-suggest security notes when adding accounts</span>
+                </div>
+                <div class="ai-feature-item">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                  <span>Parse account data from natural language</span>
+                </div>
+                <div class="ai-feature-item">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                  <span>Security analysis &amp; vulnerability scoring</span>
+                </div>
+                <div class="ai-feature-item">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                  <span>AI assistant chat for account management</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+  ACCOUNT DETAIL POPUP
+═══════════════════════════════════════════ -->
+<div class="modal-overlay" id="detail-modal" onclick="closeDetailOnOverlay(event)">
+  <div class="modal modal-detail">
+    <div class="modal-header">
+      <div class="modal-title">
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--cyan)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <span>Account Details</span>
+      </div>
+      <button class="modal-close" onclick="closeDetail()" data-testid="button-close-detail">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>
+    <div class="modal-body custom-scroll" id="detail-body"></div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost" onclick="closeDetail()">Close</button>
+      <button class="btn btn-danger btn-sm" id="detail-delete-btn" onclick="closeDetail();confirmDelete(window._detailId)" data-testid="button-detail-delete">
+        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg>
+        Delete
+      </button>
+      <button class="btn btn-primary" id="detail-edit-btn" onclick="closeDetail();openEditModal(window._detailId)" data-testid="button-detail-edit">
+        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+        Edit Account
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+  ADD / EDIT ACCOUNT MODAL
+═══════════════════════════════════════════ -->
+<div class="modal-overlay" id="account-modal" onclick="closeModalOnOverlay(event)">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title">
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>
+        <span id="modal-title-text">Add Account</span>
+      </div>
+      <button class="modal-close" onclick="closeModal()" data-testid="button-close-modal">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>
+
+    <div class="modal-body custom-scroll">
+      <form id="account-form" onsubmit="handleSaveAccount(event)">
+        <input type="hidden" id="account-id" />
+        <div class="form-grid">
+
+          <!-- Platform -->
+          <div class="form-group full">
+            <label class="form-label">Platform *</label>
+            <div class="platform-select-wrap">
+              <select id="acc-platform" data-testid="select-platform" required>
+                <option value="">— Select Platform —</option>
+                <option value="facebook">Facebook</option>
+                <option value="instagram">Instagram</option>
+                <option value="gmail">Gmail</option>
+                <option value="twitter">Twitter / X</option>
+                <option value="tiktok">TikTok</option>
+                <option value="snapchat">Snapchat</option>
+                <option value="discord">Discord</option>
+                <option value="telegram">Telegram</option>
+                <option value="whatsapp">WhatsApp</option>
+                <option value="youtube">YouTube</option>
+                <option value="linkedin">LinkedIn</option>
+                <option value="other">Other</option>
+              </select>
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+            </div>
+          </div>
+
+          <!-- Name -->
+          <div class="form-group full">
+            <label class="form-label">Account Name *</label>
+            <div class="input-wrap">
+              <span class="input-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+              </span>
+              <input type="text" id="acc-name" placeholder="e.g. My Main Facebook" data-testid="input-acc-name" required />
+            </div>
+          </div>
+
+          <!-- UID -->
+          <div class="form-group">
+            <label class="form-label">UID / Username</label>
+            <div class="input-wrap">
+              <span class="input-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="8" rx="2"/><rect x="2" y="14" width="20" height="8" rx="2"/><line x1="6" y1="6" x2="6.01" y2="6"/><line x1="6" y1="18" x2="6.01" y2="18"/></svg>
+              </span>
+              <input type="text" id="acc-uid" placeholder="User ID or @username" data-testid="input-acc-uid" />
+            </div>
+          </div>
+
+          <!-- Status -->
+          <div class="form-group">
+            <label class="form-label">Status</label>
+            <div class="platform-select-wrap">
+              <select id="acc-status" data-testid="select-status">
+                <option value="live">Live</option>
+                <option value="dead">Dead</option>
+              </select>
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+            </div>
+          </div>
+
+          <!-- Email -->
+          <div class="form-group">
+            <label class="form-label">Email Address</label>
+            <div class="input-wrap">
+              <span class="input-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+              </span>
+              <input type="email" id="acc-email" placeholder="email@example.com" data-testid="input-acc-email" />
+            </div>
+          </div>
+
+          <!-- Phone -->
+          <div class="form-group">
+            <label class="form-label">Phone Number</label>
+            <div class="input-wrap">
+              <span class="input-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 13.1a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.31 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 9.91a16 16 0 0 0 6.29 6.29l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+              </span>
+              <input type="text" id="acc-number" placeholder="+880 1700 000000" data-testid="input-acc-number" />
+            </div>
+          </div>
+
+          <!-- DOB -->
+          <div class="form-group">
+            <label class="form-label">Date of Birth</label>
+            <div class="input-wrap">
+              <span class="input-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+              </span>
+              <input type="date" id="acc-dob" data-testid="input-acc-dob" />
+            </div>
+          </div>
+
+          <!-- Password -->
+          <div class="form-group">
+            <label class="form-label">Password *</label>
+            <div class="input-wrap">
+              <span class="input-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+              </span>
+              <input type="password" id="acc-password" placeholder="Account password" class="has-right-btn" data-testid="input-acc-password" required />
+              <button type="button" class="input-btn" onclick="togglePasswordVisibility('acc-password', this)">
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+              </button>
+            </div>
+          </div>
+
+          <!-- 2FA -->
+          <div class="form-group">
+            <label class="form-label">2FA Secret Key</label>
+            <div class="input-wrap">
+              <span class="input-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
+              </span>
+              <input type="text" id="acc-2fa" placeholder="Base32 TOTP secret" class="mono" data-testid="input-acc-2fa" />
+            </div>
+          </div>
+
+          <!-- Recovery Key -->
+          <div class="form-group">
+            <label class="form-label">Recovery Key</label>
+            <div class="input-wrap">
+              <span class="input-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.777-7.777zm0 0L15.5 7.5m0 0l3 3L22 7l-3-3m-3.5 3.5L19 4"/></svg>
+              </span>
+              <input type="text" id="acc-key" placeholder="Backup / recovery code" class="mono" data-testid="input-acc-key" />
+            </div>
+          </div>
+
+          <!-- Image URL -->
+          <div class="form-group full">
+            <label class="form-label">Profile Image</label>
+            <div class="img-upload-row">
+              <div class="input-wrap" style="flex:1;">
+                <span class="input-icon">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+                </span>
+                <input type="url" id="acc-img" placeholder="https://... or upload below" data-testid="input-acc-img" />
+              </div>
+              <label class="btn btn-outline btn-sm img-upload-label" for="img-file-input" title="Upload from device">
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+                Upload
+              </label>
+              <input type="file" id="img-file-input" accept="image/*" style="display:none;" onchange="handleImageUpload(this)" />
+            </div>
+            <div class="upload-status-msg" id="img-upload-status"></div>
+          </div>
+
+          <!-- Note -->
+          <div class="form-group full">
+            <label class="form-label">Note</label>
+            <textarea id="acc-note" placeholder="Additional notes about this account..." data-testid="input-acc-note"></textarea>
+          </div>
+
+        </div>
+      </form>
+    </div>
+
+    <div class="modal-footer">
+      <button class="btn btn-ghost" onclick="closeModal()">Cancel</button>
+      <button class="btn btn-primary" id="save-btn" onclick="handleSaveAccount(event)" data-testid="button-save-account">
+        <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+        Save Account
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+  CONFIRM DELETE DIALOG
+═══════════════════════════════════════════ -->
+<div class="confirm-overlay" id="confirm-dialog">
+  <div class="confirm-box">
+    <div class="confirm-icon">
+      <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg>
+    </div>
+    <div class="confirm-title">Delete Account?</div>
+    <div class="confirm-desc">This action cannot be undone. The account and all its data will be permanently removed from the database.</div>
+    <div class="confirm-actions">
+      <button class="btn btn-ghost" onclick="closeConfirm()">Cancel</button>
+      <button class="btn btn-danger" id="confirm-delete-btn" data-testid="button-confirm-delete">Delete</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+  AI ASSISTANT — FULL PAGE
+═══════════════════════════════════════════ -->
+<div class="power-modal-overlay fullpage" id="ai-modal">
+  <div class="power-modal" style="display:flex;flex-direction:column;">
+
+    <div class="fp-header">
+      <button class="fp-back-btn" onclick="closeAIModal()">
+        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+        Back
+      </button>
+      <div class="fp-header-icon" style="background:rgba(139,92,246,0.15);border:1px solid rgba(139,92,246,0.3);">
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--purple)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+      </div>
+      <div class="fp-header-info">
+        <div class="fp-header-title">AI Assistant</div>
+        <div class="fp-header-sub">Powered by OpenAI / Gemini</div>
+      </div>
+      <div class="fp-header-actions">
+        <a onclick="closeAIModal();showPage('settings')" href="#" class="btn btn-sm btn-outline" style="font-size:12px;">⚙ Settings</a>
+      </div>
+    </div>
+
+    <!-- No key state -->
+    <div id="ai-modal-nokey" class="ai-nokey-wrap" style="display:none;">
+      <div class="ai-nokey-card">
+        <div style="color:var(--purple);margin-bottom:16px;display:flex;justify-content:center;">
+          <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+        </div>
+        <div style="font-size:18px;font-weight:700;margin-bottom:8px;">AI not enabled</div>
+        <div style="font-size:13px;color:var(--text3);margin-bottom:20px;line-height:1.6;">Enable AI Support in Settings and add your OpenAI or Gemini API key to get started.</div>
+        <a onclick="closeAIModal();showPage('settings')" href="#" class="btn btn-primary" style="display:inline-flex;">Go to Settings →</a>
+      </div>
+    </div>
+
+    <!-- Chat layout -->
+    <div id="ai-modal-chat-wrap" class="ai-page-layout" style="display:none;flex:1;overflow:hidden;">
+      <!-- Quick commands sidebar -->
+      <div class="ai-page-sidebar">
+        <div class="ai-page-cmd-section">
+          <div class="ai-page-cmd-title">Quick Commands</div>
+          <div class="ai-page-cmd" onclick="aiQuickCmd('delete all dead accounts')">
+            <span class="ai-page-cmd-icon">🗑️</span> Delete dead
+          </div>
+          <div class="ai-page-cmd" onclick="aiQuickCmd('list all dead accounts')">
+            <span class="ai-page-cmd-icon">📋</span> List dead
+          </div>
+          <div class="ai-page-cmd" onclick="aiQuickCmd('find weak passwords')">
+            <span class="ai-page-cmd-icon">🔐</span> Weak passwords
+          </div>
+          <div class="ai-page-cmd" onclick="aiQuickCmd('show analytics')">
+            <span class="ai-page-cmd-icon">📊</span> Analytics
+          </div>
+          <div class="ai-page-cmd" onclick="aiQuickCmd('how many live accounts do I have')">
+            <span class="ai-page-cmd-icon">✅</span> Live count
+          </div>
+          <div class="ai-page-cmd" onclick="aiQuickCmd('security audit')">
+            <span class="ai-page-cmd-icon">🛡️</span> Security audit
+          </div>
+        </div>
+      </div>
+      <!-- Chat area -->
+      <div class="ai-page-chat">
+        <div class="ai-page-msgs custom-scroll" id="ai-modal-messages">
+          <div class="ai-msg ai-msg-bot">
+            <div class="ai-msg-avatar">AI</div>
+            <div class="ai-msg-bubble">
+              <div class="ai-msg-text">Hello! I'm your Private Vault AI. Tap a chip below or type your own request — I'll handle the rest.</div>
+              <div class="ai-action-chips" id="ai-intro-chips"></div>
+            </div>
+          </div>
+        </div>
+        <div class="ai-page-input-wrap">
+          <div class="ai-page-input-row">
+            <textarea
+              id="ai-modal-input"
+              class="ai-page-textarea custom-scroll"
+              placeholder='Type a command… e.g. "delete dead accounts" or "find weak passwords"'
+              rows="2"
+              onkeydown="aiModalChatKeydown(event)"
+            ></textarea>
+            <button class="btn btn-primary" id="ai-modal-send-btn" onclick="sendAIModalChat()" style="height:42px;padding:0 16px;flex-shrink:0;">
+              <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- Sidebar overlay (mobile) -->
+<div id="sidebar-overlay" class="sidebar-overlay" onclick="closeSidebar()"></div>
+
+<!-- Toast container -->
+<div class="toast-container" id="toast-container"></div>
+
+<!-- ═══════════════════════════════════════════
+  ANALYTICS — FULL PAGE
+═══════════════════════════════════════════ -->
+<div class="power-modal-overlay fullpage" id="analytics-modal">
+  <div class="power-modal" style="display:flex;flex-direction:column;">
+
+    <div class="fp-header">
+      <button class="fp-back-btn" onclick="closePowerModal('analytics-modal')">
+        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+        Back
+      </button>
+      <div class="fp-header-icon" style="background:rgba(59,130,246,0.12);border:1px solid rgba(59,130,246,0.3);">
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+      </div>
+      <div class="fp-header-info">
+        <div class="fp-header-title">Analytics &amp; Security Report</div>
+        <div class="fp-header-sub" id="analytics-fp-sub">Account intelligence dashboard</div>
+      </div>
+      <div class="fp-header-actions">
+        <button class="btn btn-sm btn-outline" onclick="renderAnalytics()">
+          <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
+          Refresh
+        </button>
+      </div>
+    </div>
+
+    <div class="fp-body custom-scroll">
+      <div class="fp-content" id="analytics-body"></div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+  BULK PARSER MODAL
+═══════════════════════════════════════════ -->
+<div class="power-modal-overlay" id="bulk-parser-modal" onclick="closePowerModalOnOverlay(event,'bulk-parser-modal')">
+  <div class="power-modal bulk-parser-modal-inner">
+    <div class="power-modal-header">
+      <div class="power-modal-title">
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+        Bulk Account Parser
+      </div>
+      <button class="power-modal-close" onclick="closePowerModal('bulk-parser-modal')">
+        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>
+    <div class="power-modal-body">
+
+      <!-- Format guide (collapsible) -->
+      <details class="bulk-format-guide">
+        <summary>
+          <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+          Format Guide — click to expand
+        </summary>
+        <div class="bulk-format-body">
+          <div class="bulk-format-section">
+            <span class="bulk-format-label">Standard (recommended)</span>
+            <code>gmail: user@gmail.com | pass: MyPass123</code>
+            <code>facebook: user123 | email: user@mail.com | pass: Abc@456 | 2fa: KEY</code>
+            <code>instagram: @handle | pass: Secret789 | phone: +8801XXXXXXXXX</code>
+          </div>
+          <div class="bulk-format-section">
+            <span class="bulk-format-label">Simple (email:password)</span>
+            <code>user@gmail.com:MyPassword</code>
+            <code>user@yahoo.com:AnotherPass | 2fa: TOTP_SECRET</code>
+          </div>
+          <div class="bulk-format-section">
+            <span class="bulk-format-label">Supported keys</span>
+            <div class="bulk-format-keys">
+              <span>platform</span><span>email / mail</span><span>pass / password</span>
+              <span>user / uid / username</span><span>2fa / totp / secret</span>
+              <span>phone / number</span><span>name</span><span>status</span><span>note</span>
+            </div>
+          </div>
+        </div>
+      </details>
+
+      <!-- Input area -->
+      <div class="bulk-input-wrap">
+        <label class="bulk-input-label">
+          <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+          Paste account data below — one account per line
+        </label>
+        <textarea class="bulk-parser-textarea" id="bulk-parser-input"
+          placeholder="gmail: user@gmail.com | pass: MyPass123&#10;facebook: john123 | email: john@mail.com | pass: Secure@99 | 2fa: JBSWY3DPEHPK3PXP&#10;instagram: @handle | pass: Secret789 | phone: +8801XXXXXXXX&#10;user@yahoo.com:MyPassword123"></textarea>
+      </div>
+
+      <!-- Action buttons -->
+      <div class="bulk-action-bar">
+        <div style="display:flex;gap:8px;flex-wrap:wrap;">
+          <button class="btn btn-primary" onclick="parseBulkAccounts()">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+            Parse
+          </button>
+          <button class="btn btn-ghost" onclick="clearBulkParser()">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/></svg>
+            Clear
+          </button>
+        </div>
+        <button class="btn bulk-save-btn" id="bulk-save-btn" onclick="saveBulkParsed()" style="display:none;">
+          <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/></svg>
+          Save All to Vault
+        </button>
+      </div>
+
+      <!-- Stats bar -->
+      <div id="bulk-stats-bar" class="bulk-stats-bar" style="display:none;"></div>
+
+      <!-- Parsed preview -->
+      <div id="bulk-parsed-preview" class="bulk-parsed-preview"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+  SYSTEM HEALTH MODAL
+═══════════════════════════════════════════ -->
+<div class="power-modal-overlay fullpage" id="system-health-modal">
+  <div class="power-modal" style="display:flex;flex-direction:column;">
+    <div class="fp-header">
+      <button class="fp-back-btn" onclick="closePowerModal('system-health-modal')">
+        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+        Back
+      </button>
+      <div class="fp-header-icon" style="background:rgba(34,197,94,0.15);border:1px solid rgba(34,197,94,0.3);">
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+      </div>
+      <div class="fp-header-info">
+        <div class="fp-header-title">System Health</div>
+        <div class="fp-header-sub" id="sysh-sub">Initializing checks…</div>
+      </div>
+      <div class="fp-header-actions">
+        <button class="btn btn-sm btn-outline" onclick="renderSystemHealth()" style="font-size:12px;">
+          <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>
+          Refresh
+        </button>
+      </div>
+    </div>
+    <div class="fp-content" id="sysh-body" style="overflow-y:auto;"></div>
+  </div>
+</div>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script type="module" src="/assets/script.js"></script>
+</body>
+</html>
