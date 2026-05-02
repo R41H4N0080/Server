@@ -1,0 +1,27 @@
+{
+  "version": 2,
+  "rewrites": [
+    { "source": "/api/config",         "destination": "/api/index" },
+    { "source": "/api/watchdog",       "destination": "/api/index" },
+    { "source": "/api/health",         "destination": "/api/index" },
+    { "source": "/api/check",          "destination": "/api/index" },
+    { "source": "/api/version",        "destination": "/api/index" },
+    { "source": "/api/analyze",        "destination": "/api/index" },
+    { "source": "/api/password-check", "destination": "/api/index" },
+    { "source": "/api/uid_find",       "destination": "/api/index" },
+    { "source": "/api/totp",           "destination": "/api/index" },
+    { "source": "/api/fb-live",        "destination": "/api/index" },
+    { "source": "/api/ai",             "destination": "/api/index" },
+    { "source": "/api/imgbb",          "destination": "/api/index" }
+  ],
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        { "key": "X-Content-Type-Options", "value": "nosniff" },
+        { "key": "Referrer-Policy", "value": "strict-origin-when-cross-origin" },
+        { "key": "X-Watermark", "value": "_RAIHAN" }
+      ]
+    }
+  ]
+}
