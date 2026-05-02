@@ -1,0 +1,16 @@
+{
+  "name": "private-vault",
+  "version": "10.A1.A3",
+  "description": "PRIVATE VAULT — secure account manager (backend + static frontend) — by _RAIHAN",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "author": "_RAIHAN",
+  "license": "UNLICENSED",
+  "private": true
+}
